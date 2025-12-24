@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.sprint.mission.discodeit.entity.BinaryContent;
 import com.sprint.mission.discodeit.entity.User;
+import com.sprint.mission.discodeit.entity.UserStatus;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import org.hibernate.Hibernate;
@@ -35,6 +37,8 @@ class UserRepositoryTest {
   private User createTestUser(String username, String email) {
     BinaryContent profile = new BinaryContent("profile.jpg", 1024L, "image/jpeg");
     User user = new User(username, email, "password123!@#", profile);
+    // UserStatus 생성 및 연결
+    UserStatus status = new UserStatus(user, Instant.now());
     return user;
   }
 
@@ -100,7 +104,7 @@ class UserRepositoryTest {
   }
 
   @Test
-  @DisplayName("모든 사용자를 프로필과 함께 조회할 수 있다")
+  @DisplayName("모든 사용자를 프로필과 상태 정보와 함께 조회할 수 있다")
   void findAllWithProfileAndStatus_ReturnsUsersWithProfileAndStatus() {
     // given
     User user1 = createTestUser("user1", "user1@example.com");
@@ -113,7 +117,7 @@ class UserRepositoryTest {
     entityManager.clear();
 
     // when
-    List<User> users = userRepository.findAllWithProfile();
+    List<User> users = userRepository.findAllWithProfileAndStatus();
 
     // then
     assertThat(users).hasSize(2);
@@ -127,6 +131,8 @@ class UserRepositoryTest {
 
     // 프록시 초기화 여부 확인
     assertThat(Hibernate.isInitialized(foundUser1.getProfile())).isTrue();
+    assertThat(Hibernate.isInitialized(foundUser1.getStatus())).isTrue();
     assertThat(Hibernate.isInitialized(foundUser2.getProfile())).isTrue();
+    assertThat(Hibernate.isInitialized(foundUser2.getStatus())).isTrue();
   }
 } 

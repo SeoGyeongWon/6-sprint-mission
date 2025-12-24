@@ -1,6 +1,7 @@
 package com.sprint.mission.discodeit.controller.api;
 
 import com.sprint.mission.discodeit.dto.data.UserDto;
+import com.sprint.mission.discodeit.dto.data.UserStatusDto;
 import com.sprint.mission.discodeit.dto.request.UserCreateRequest;
 import com.sprint.mission.discodeit.dto.request.UserUpdateRequest;
 import io.swagger.v3.oas.annotations.Operation;
