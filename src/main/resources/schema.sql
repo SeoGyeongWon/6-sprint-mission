@@ -29,7 +29,7 @@ CREATE TABLE user_statuses
     created_at     timestamp with time zone NOT NULL,
     updated_at     timestamp with time zone,
     user_id        uuid UNIQUE              NOT NULL,
-    last_active_at timestamptz              NOT NULL
+    last_active_at timestamp with time zone NOT NULL
 );
 
 -- Channel
@@ -70,7 +70,7 @@ CREATE TABLE read_statuses
     updated_at   timestamp with time zone,
     user_id      uuid                     NOT NULL,
     channel_id   uuid                     NOT NULL,
-    last_read_at timestamptz              NOT NULL,
+    last_read_at timestamp with time zone NOT NULL,
     UNIQUE (user_id, channel_id)
 );
 
